@@ -6,6 +6,7 @@ import TelegramBot from 'node-telegram-bot-api';
 import express from 'express';
 
 import {format} from 'date-fns';
+import { utcToZonedTime } from 'date-fns-tz';
 
 const token = process.env.TOKEN;
 const bot = new TelegramBot(token, { polling: true });
@@ -15,7 +16,10 @@ const port = process.env.PORT;
 
 app.post('/webhook', async (req, res) => {
   const chatId = process.env.CHAT_ID;
-  const messageText = `Alerta! 💣 Movimento detectado - ${format(new Date(), 'dd/MM/yyyy \'às\' HH:mm')}`;
+
+  const currentDateTimeZone = utcToZonedTime(new Date(), 'America/Sao_Paulo');
+
+  const messageText = `Alerta! 💣 Movimento detectado - ${format(currentDateTimeZone, 'dd/MM/yyyy \'às\' HH:mm')}`;
 
   try {
     await bot.sendMessage(chatId, messageText);
