@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+import cors from 'cors';
 
 dotenv.config();
 
@@ -13,6 +14,8 @@ const bot = new TelegramBot(token, { polling: true });
 
 const app = express();
 const port = process.env.PORT;
+
+app.use(cors());
 
 app.post('/webhook', async (req, res) => {
   const chatId = process.env.CHAT_ID;
