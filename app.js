@@ -11,7 +11,7 @@ const token = process.env.TOKEN;
 const bot = new TelegramBot(token, { polling: true });
 
 const app = express();
-const port = 3001;
+const port = process.env.PORT;
 
 app.post('/webhook', async (req, res) => {
   const chatId = process.env.CHAT_ID;
